@@ -5,3 +5,7 @@ version_files = [
     "pubspec.yaml:version",
 ]
 tag_format = "$version"
+annotated_tag = true
+bump_message = "build(pubspec.yaml): increment version 1.0.1 → 1.0.2"
+update_changelog_on_bump = true
+
