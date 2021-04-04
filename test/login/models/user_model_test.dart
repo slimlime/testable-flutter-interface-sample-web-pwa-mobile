@@ -98,6 +98,19 @@ void main() {
     test('different values hash inequal', () {
       final String sameName = faker.person.name();
       final String sameEmail = faker.internet.email();
+
+      final User userA = User(
+        sameName,
+        sameEmail,
+      );
+      final User userB = User(
+        sameName,
+        sameEmail,
+      );
+
+      final bool isSameHashCode = userA.hashCode == userB.hashCode;
+
+      expect(isSameHashCode, true);
     });
   });
 }
