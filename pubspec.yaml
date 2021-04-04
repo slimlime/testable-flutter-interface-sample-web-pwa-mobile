@@ -23,6 +23,8 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  # dart lint ignore does not work in yaml files.
+  # ignore: sort_pub_dependencies
   bloc: ^7.0.0
   cupertino_icons: ^1.0.2
   equatable: ^2.0.0
