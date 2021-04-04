@@ -94,14 +94,19 @@ void main() {
         () {
           User.fromJson(invalidJsonNoEmail);
         },
-        throwsCastError(),
+        // throwsCastError(),
+        throwsA(
+          isA<MissingRequiredKeysException>(),
+        ),
       );
 
       expect(
         () {
           User.fromJson(invalidJsonNoName);
         },
-        throwsCastError(),
+        throwsA(
+          isA<MissingRequiredKeysException>(),
+        ),
       );
 
       // https://github.com/dart-lang/sdk/issues/39305
@@ -109,7 +114,8 @@ void main() {
         () {
           User.fromJson(invalidJsonSingleRandomKey);
         },
-        throwsA(isA<Error>()),
+        // throwsA(isA<Error>()),
+        throwsA(isA<Exception>()),
       );
 
       // expect(
@@ -125,6 +131,11 @@ void main() {
         },
         anyOf(
           throwsA(isA<Error>()),
+          throwsA(isA<Exception>()),
+          // TestFailure (Expected: (throws <Instance of 'Error'> or <Instance of 'TypeError'> or <Instance of 'NullThrownError'> or <Instance of 'DisallowedNullValueException'> or <Instance of 'Exception'>)
+          //   Actual: <Closure: () => Null>
+          // )
+
           isA<TypeError>(),
           isNullThrownError,
           isA<DisallowedNullValueException>(),
