@@ -22,6 +22,7 @@ Matcher throwsErrorOfType<T extends Error>() {
 }
 
 Matcher throwsCastError() => throwsErrorOfType<CastError>();
+Matcher throwsAnError() => throwsA(isA<Error>());
 
 void main() {
   final Faker faker = Faker();
@@ -45,6 +46,17 @@ void main() {
       final Map<String, dynamic> jsonA = user.toJson();
 
       final User parsedUserFromJson = User.fromJson(jsonA);
+
+      final Map<String, dynamic> validJsonExtraKeyIgnored = <String, dynamic>{
+        'email': sameEmail,
+        'name': sameName,
+        'randomkey': 'qweasdzxc',
+      };
+      final User parsedUserExtraDataIgnored = User.fromJson(
+        validJsonExtraKeyIgnored,
+      );
+
+      // No errors!
     });
 
     test('unable to construct from invalid json', () {
@@ -63,7 +75,7 @@ void main() {
       final Map<String, dynamic> invalidJsonNoEmail = <String, dynamic>{
         'name': sameName,
       };
-      final Map<String, dynamic> invalidJson = <String, dynamic>{
+      final Map<String, dynamic> invalidJsonSingleRandomKey = <String, dynamic>{
         'randomkey': 'qweasdzxc',
       };
 
@@ -78,7 +90,12 @@ void main() {
       // Exception has occurred.
       // _CastError (type 'Null' is not a subtype of type 'String' in type cast)
 
-      User.fromJson(invalidJsonNoEmail);
+      expect(
+        () {
+          User.fromJson(invalidJsonNoEmail);
+        },
+        throwsCastError(),
+      );
 
       expect(
         () {
@@ -90,7 +107,7 @@ void main() {
       // https://github.com/dart-lang/sdk/issues/39305
       expect(
         () {
-          User.fromJson(invalidJson);
+          User.fromJson(invalidJsonSingleRandomKey);
         },
         throwsA(isA<Error>()),
       );
@@ -104,7 +121,7 @@ void main() {
 
       expect(
         () {
-          User.fromJson(invalidJson);
+          User.fromJson(invalidJsonSingleRandomKey);
         },
         anyOf(
           throwsA(isA<Error>()),
