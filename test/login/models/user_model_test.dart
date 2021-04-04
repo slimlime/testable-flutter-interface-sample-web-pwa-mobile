@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:faker/faker.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:json_annotation/json_annotation.dart';
 import 'package:testable_web_app/login/models/user_model.dart';
 
 void main() {
@@ -53,9 +54,36 @@ void main() {
       // _CastError (type 'Null' is not a subtype of type 'String' in type cast)
 
       // anyOf(arg0)
+      throwsA(DisallowedNullValueException);
+
+      // throwsA(matcher)
+
+      // https://github.com/dart-lang/sdk/issues/39305
       expect(
-        User.fromJson(invalidJson),
-        isNullThrownError,
+        () {
+          User.fromJson(invalidJson);
+        },
+        throwsA(isA<Error>()),
+      );
+
+      // expect(
+      //   () {
+      //     User.fromJson(invalidJson);
+      //   },
+      //   throwsException,
+      // );
+
+      expect(
+        () {
+          User.fromJson(invalidJson);
+        },
+        anyOf(
+          throwsA(isA<Error>()),
+          isA<TypeError>(),
+          isNullThrownError,
+          isA<DisallowedNullValueException>(),
+          isException,
+        ),
       );
     });
 

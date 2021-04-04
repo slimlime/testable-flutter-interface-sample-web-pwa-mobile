@@ -20,7 +20,16 @@ class User extends Equatable {
   /// The constructor is named after the source class, in this case, User.
   factory User.fromJson(Map<String, dynamic> json) => _$UserFromJson(json);
 
+  @JsonKey(
+    required: true,
+    disallowNullValue: true,
+  )
   final String email;
+  @JsonKey(
+    required: true,
+    disallowNullValue: true,
+    // defaultValue:
+  )
   final String name;
 
   @override
