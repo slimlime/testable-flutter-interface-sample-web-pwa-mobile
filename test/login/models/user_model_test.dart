@@ -5,7 +5,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:testable_web_app/login/models/user_model.dart';
 
 void main() {
-  const Faker faker = Faker();
+  final Faker faker = Faker();
 
   group('user', () {
     test('can construct', () {
@@ -37,5 +37,9 @@ void main() {
       final String jsonB = jsonEncode(user);
       final String jsonC = json.encode(user);
     });
+
+    test('is value equal to', () {});
+
+    test('is hash equal to', () {});
   });
 }
