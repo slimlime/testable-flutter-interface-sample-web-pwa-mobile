@@ -5,9 +5,26 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:testable_web_app/login/models/user_model.dart';
 
+/// Utility to make it easier to test expected error exception throws
+/// that do not already have a convenience function
+///
+/// throwsA(isA<Error>()),
+///
+///
+///
+/// https: //github.com/dart-lang/sdk/issues/39305#issuecomment-580732718
+Matcher throwsErrorOfType<T extends Error>() {
+  // Throws something that matches the isA matcch.
+
+  return throwsA(
+    isA<T>(),
+  );
+}
+
+Matcher throwsCastError() => throwsErrorOfType<CastError>();
+
 void main() {
   final Faker faker = Faker();
-
   group('user', () {
     final String sameName = faker.person.name();
     final String sameEmail = faker.internet.email();
@@ -57,6 +74,18 @@ void main() {
       throwsA(DisallowedNullValueException);
 
       // throwsA(matcher)
+
+      // Exception has occurred.
+      // _CastError (type 'Null' is not a subtype of type 'String' in type cast)
+
+      User.fromJson(invalidJsonNoEmail);
+
+      expect(
+        () {
+          User.fromJson(invalidJsonNoName);
+        },
+        throwsCastError(),
+      );
 
       // https://github.com/dart-lang/sdk/issues/39305
       expect(
