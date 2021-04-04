@@ -21,21 +21,23 @@ environment:
   sdk: ">=2.12.0 <3.0.0"
 
 dependencies:
-  flutter:
-    sdk: flutter
   # dart lint ignore does not work in yaml files.
   # ignore: sort_pub_dependencies
   bloc: ^7.0.0
   cupertino_icons: ^1.0.2
   equatable: ^2.0.0
+
+  flutter:
+    sdk: flutter
   flutter_bloc: ^7.0.0
   json_annotation: ^4.0.1
 
 dev_dependencies:
-  flutter_test:
-    sdk: flutter
   bloc_test: ^8.0.0
   build_runner: ^1.12.2
+
+  flutter_test:
+    sdk: flutter
   json_serializable: ^4.1.0
   lint: ^1.5.3
 
