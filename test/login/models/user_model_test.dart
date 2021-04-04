@@ -38,6 +38,25 @@ void main() {
       final Map<String, dynamic> jsonA = user.toJson();
 
       final User parsedUserFromJson = User.fromJson(jsonA);
+
+      final Map<String, dynamic> invalidJsonNoName = <String, dynamic>{
+        'email': sameEmail,
+      };
+      final Map<String, dynamic> invalidJsonNoEmail = <String, dynamic>{
+        'name': sameName,
+      };
+      final Map<String, dynamic> invalidJson = <String, dynamic>{
+        'randomkey': 'qweasdzxc',
+      };
+
+      // When not required key
+      // _CastError (type 'Null' is not a subtype of type 'String' in type cast)
+
+      // anyOf(arg0)
+      expect(
+        User.fromJson(invalidJson),
+        isNullThrownError,
+      );
     });
 
     test('can encode to json', () {
