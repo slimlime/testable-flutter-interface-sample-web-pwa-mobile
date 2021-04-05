@@ -147,6 +147,29 @@ void main() {
         isDifferentHashCode,
         true,
       );
+
+      const int numberOfUsersToTest = 100;
+      final List<User> differentUsers = List<User>.generate(
+        numberOfUsersToTest,
+        (index) => User(
+          'unlikely string ${faker.person.name()}',
+          'unlikely string ${faker.internet.email()}',
+        ),
+      );
+
+      differentUsers.forEach((user) {
+        final bool isDifferentUser = userA != differentUser;
+        final bool isDifferentHashCode =
+            userA.hashCode != differentUser.hashCode;
+
+        final bool isDifferentValuesAndHash =
+            isDifferentUser && isDifferentHashCode;
+
+        expect(
+          isDifferentValuesAndHash,
+          true,
+        );
+      });
     });
 
     test('same values hash equal', () {
