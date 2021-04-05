@@ -21,6 +21,14 @@ Matcher throwsErrorOfType<T extends Error>() {
   );
 }
 
+Matcher throwsExceptionOfType<T extends Exception>() {
+  // Throws something that matches the isA matcch.
+
+  return throwsA(
+    isA<T>(),
+  );
+}
+
 Matcher throwsCastError() => throwsErrorOfType<CastError>();
 Matcher throwsAnError() => throwsA(isA<Error>());
 
@@ -118,28 +126,21 @@ void main() {
         throwsA(isA<Exception>()),
       );
 
-      // expect(
-      //   () {
-      //     User.fromJson(invalidJson);
-      //   },
-      //   throwsException,
-      // );
-
       expect(
         () {
           User.fromJson(invalidJsonSingleRandomKey);
         },
         anyOf(
-          throwsA(isA<Error>()),
-          throwsA(isA<Exception>()),
+          throwsExceptionOfType<MissingRequiredKeysException>(),
+          // MissingRequiredKeysException
           // TestFailure (Expected: (throws <Instance of 'Error'> or <Instance of 'TypeError'> or <Instance of 'NullThrownError'> or <Instance of 'DisallowedNullValueException'> or <Instance of 'Exception'>)
           //   Actual: <Closure: () => Null>
           // )
 
-          isA<TypeError>(),
-          isNullThrownError,
-          isA<DisallowedNullValueException>(),
-          isException,
+          // isA<TypeError>(),
+
+          // isA<DisallowedNullValueException>(),
+          // isException,
         ),
       );
     });
