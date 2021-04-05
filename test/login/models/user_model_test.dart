@@ -21,8 +21,24 @@ void main() {
       sameEmail,
     );
 
+    final Map<String, dynamic> validJsonExtraKeyIgnored = <String, dynamic>{
+      'email': sameEmail,
+      'name': sameName,
+      'randomkey': 'qweasdzxc',
+    };
+
+    final Map<String, dynamic> invalidJsonNoName = <String, dynamic>{
+      'email': sameEmail,
+    };
+    final Map<String, dynamic> invalidJsonNoEmail = <String, dynamic>{
+      'name': sameName,
+    };
+    final Map<String, dynamic> invalidJsonSingleRandomKey = <String, dynamic>{
+      'randomkey': 'qweasdzxc',
+    };
+
     test('can construct', () {
-      final User user = User(
+      User(
         faker.person.name(),
         faker.internet.email(),
       );
@@ -36,13 +52,9 @@ void main() {
 
       final Map<String, dynamic> jsonA = user.toJson();
 
+      // ignore: unused_local_variable
       final User parsedUserFromJson = User.fromJson(jsonA);
-
-      final Map<String, dynamic> validJsonExtraKeyIgnored = <String, dynamic>{
-        'email': sameEmail,
-        'name': sameName,
-        'randomkey': 'qweasdzxc',
-      };
+      // ignore: unused_local_variable
       final User parsedUserExtraDataIgnored = User.fromJson(
         validJsonExtraKeyIgnored,
       );
@@ -57,16 +69,8 @@ void main() {
       );
       final Map<String, dynamic> validUserJson = user.toJson();
 
+      // ignore: unused_local_variable
       final User parsedUserFromJson = User.fromJson(validUserJson);
-      final Map<String, dynamic> invalidJsonNoName = <String, dynamic>{
-        'email': sameEmail,
-      };
-      final Map<String, dynamic> invalidJsonNoEmail = <String, dynamic>{
-        'name': sameName,
-      };
-      final Map<String, dynamic> invalidJsonSingleRandomKey = <String, dynamic>{
-        'randomkey': 'qweasdzxc',
-      };
 
       /// Previous throw.
       ///  Exception has occurred.
@@ -103,11 +107,19 @@ void main() {
         faker.person.name(),
         faker.internet.email(),
       );
-      user.toJson();
-      jsonEncode(user);
 
-      final String jsonB = jsonEncode(user);
-      final String jsonC = json.encode(user);
+      // ignore: unused_local_variable
+      final Map<String, dynamic> userJson = user.toJson();
+
+      final String reserialisedJsonEncode = jsonEncode(user);
+      final String reserialisedJsonEncodeAlias = json.encode(user);
+
+      // Not expecting any inconsistencies
+      //
+      expect(
+        reserialisedJsonEncode == reserialisedJsonEncodeAlias,
+        true,
+      );
     });
 
     test('same values equal', () {
@@ -119,7 +131,7 @@ void main() {
     });
 
     test('different values inequal', () {
-      //
+      
     });
 
     test('same values hash equal', () {
