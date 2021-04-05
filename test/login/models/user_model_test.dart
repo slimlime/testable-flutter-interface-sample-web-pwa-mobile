@@ -12,6 +12,15 @@ void main() {
     final String sameName = faker.person.name();
     final String sameEmail = faker.internet.email();
 
+    final User userA = User(
+      sameName,
+      sameEmail,
+    );
+    final User userB = User(
+      sameName,
+      sameEmail,
+    );
+
     test('can construct', () {
       final User user = User(
         faker.person.name(),
@@ -102,18 +111,6 @@ void main() {
     });
 
     test('same values equal', () {
-      final String sameName = faker.person.name();
-      final String sameEmail = faker.internet.email();
-
-      final User userA = User(
-        sameName,
-        sameEmail,
-      );
-      final User userB = User(
-        sameName,
-        sameEmail,
-      );
-
       final bool isSameUser = userA == userB;
 
       expect(isSameUser, true);
@@ -122,41 +119,16 @@ void main() {
     });
 
     test('different values inequal', () {
-      final String sameName = faker.person.name();
-      final String sameEmail = faker.internet.email();
+      //
     });
 
     test('same values hash equal', () {
-      final String sameName = faker.person.name();
-      final String sameEmail = faker.internet.email();
-
-      final User userA = User(
-        sameName,
-        sameEmail,
-      );
-      final User userB = User(
-        sameName,
-        sameEmail,
-      );
-
       final bool isSameUser = userA == userB;
 
       expect(isSameUser, true);
     });
 
     test('different values hash inequal', () {
-      final String sameName = faker.person.name();
-      final String sameEmail = faker.internet.email();
-
-      final User userA = User(
-        sameName,
-        sameEmail,
-      );
-      final User userB = User(
-        sameName,
-        sameEmail,
-      );
-
       final bool isSameHashCode = userA.hashCode == userB.hashCode;
 
       expect(isSameHashCode, true);
