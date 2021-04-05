@@ -29,6 +29,14 @@ Matcher throwsExceptionOfType<T extends Exception>() {
   );
 }
 
+Matcher throwsMissingRequiredKeyException() {
+  // Throws something that matches the isA matcch.
+
+  return throwsA(
+    isA<MissingRequiredKeysException>(),
+  );
+}
+
 Matcher throwsCastError() => throwsErrorOfType<CastError>();
 Matcher throwsAnError() => throwsA(isA<Error>());
 
@@ -67,16 +75,14 @@ void main() {
       // No errors!
     });
 
-    test('unable to construct from invalid json', () {
+    test('should be unable to construct from invalid json deserialisation', () {
       final User user = User(
         faker.person.name(),
         faker.internet.email(),
       );
+      final Map<String, dynamic> validUserJson = user.toJson();
 
-      final Map<String, dynamic> jsonA = user.toJson();
-
-      final User parsedUserFromJson = User.fromJson(jsonA);
-
+      final User parsedUserFromJson = User.fromJson(validUserJson);
       final Map<String, dynamic> invalidJsonNoName = <String, dynamic>{
         'email': sameEmail,
       };
@@ -87,34 +93,22 @@ void main() {
         'randomkey': 'qweasdzxc',
       };
 
-      // When not required key
-      // _CastError (type 'Null' is not a subtype of type 'String' in type cast)
-
-      // anyOf(arg0)
-      throwsA(DisallowedNullValueException);
-
-      // throwsA(matcher)
-
-      // Exception has occurred.
-      // _CastError (type 'Null' is not a subtype of type 'String' in type cast)
-
+      /// Previous throw.
+      ///  Exception has occurred.
+      /// _CastError (type 'Null' is not a subtype of type 'String' in type cast)
+      ///
       expect(
         () {
           User.fromJson(invalidJsonNoEmail);
         },
         // throwsCastError(),
-        throwsA(
-          isA<MissingRequiredKeysException>(),
-        ),
+        throwsMissingRequiredKeyException(),
       );
-
       expect(
         () {
           User.fromJson(invalidJsonNoName);
         },
-        throwsA(
-          isA<MissingRequiredKeysException>(),
-        ),
+        throwsMissingRequiredKeyException(),
       );
 
       /// https://github.com/dart-lang/sdk/issues/39305
@@ -124,7 +118,7 @@ void main() {
           User.fromJson(invalidJsonSingleRandomKey);
         },
         anyOf(
-          throwsExceptionOfType<MissingRequiredKeysException>(),
+          throwsMissingRequiredKeyException(),
         ),
       );
     });
