@@ -131,7 +131,22 @@ void main() {
     });
 
     test('different values inequal', () {
-      
+      final User differentUser = User(
+        faker.person.name(),
+        faker.internet.email(),
+      );
+
+      final bool isDifferentUser = userA != differentUser;
+      final bool isDifferentHashCode = userA.hashCode != differentUser.hashCode;
+
+      expect(
+        isDifferentUser,
+        true,
+      );
+      expect(
+        isDifferentHashCode,
+        true,
+      );
     });
 
     test('same values hash equal', () {
