@@ -117,30 +117,14 @@ void main() {
         ),
       );
 
-      // https://github.com/dart-lang/sdk/issues/39305
-      expect(
-        () {
-          User.fromJson(invalidJsonSingleRandomKey);
-        },
-        // throwsA(isA<Error>()),
-        throwsA(isA<Exception>()),
-      );
-
+      /// https://github.com/dart-lang/sdk/issues/39305
+      /// Random key, missing required keys
       expect(
         () {
           User.fromJson(invalidJsonSingleRandomKey);
         },
         anyOf(
           throwsExceptionOfType<MissingRequiredKeysException>(),
-          // MissingRequiredKeysException
-          // TestFailure (Expected: (throws <Instance of 'Error'> or <Instance of 'TypeError'> or <Instance of 'NullThrownError'> or <Instance of 'DisallowedNullValueException'> or <Instance of 'Exception'>)
-          //   Actual: <Closure: () => Null>
-          // )
-
-          // isA<TypeError>(),
-
-          // isA<DisallowedNullValueException>(),
-          // isException,
         ),
       );
     });
