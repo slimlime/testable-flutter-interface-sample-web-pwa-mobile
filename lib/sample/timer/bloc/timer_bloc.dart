@@ -8,10 +8,6 @@ part 'timer_event.dart';
 part 'timer_state.dart';
 
 class TimerBloc extends Bloc<TimerEvent, TimerState> {
-  final Ticker _ticker;
-  static const int _duration = 60;
-  StreamSubscription<int>? _tickerSubscription;
-
   TimerBloc({
     required Ticker ticker,
   })   : _ticker = ticker,
@@ -20,6 +16,10 @@ class TimerBloc extends Bloc<TimerEvent, TimerState> {
             _duration,
           ),
         );
+
+  final Ticker _ticker;
+  static const int _duration = 60;
+  StreamSubscription<int>? _tickerSubscription;
 
   @override
   Stream<TimerState> mapEventToState(

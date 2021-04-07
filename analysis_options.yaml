@@ -34,6 +34,7 @@ linter:
     - prefer_final_fields
     # Good practice for public widget API. Otherwise less helpful in apps
     - use_key_in_widget_constructors
+    - sort_constructors_first
 # include: package:tekartik_common_utils/pedantic/analysis_options.strong_mode.yaml
 #
 # analyzer:
