@@ -22,4 +22,18 @@ class TimerResumed extends TimerEvent {}
 
 class TimerReset extends TimerEvent {}
 
-class TimerTicked extends TimerEvent {}
+class TimerTicked extends TimerEvent {
+  const TimerTicked({
+    required this.duration,
+  });
+
+  final int duration;
+
+  @override
+  List<Object> get props => [
+        duration,
+      ];
+
+  @override
+  String toString() => 'TimerTicked ' '{ duration: $duration }';
+}
