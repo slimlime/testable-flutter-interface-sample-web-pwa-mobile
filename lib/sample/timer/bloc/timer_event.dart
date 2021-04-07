@@ -15,3 +15,11 @@ class TimerStarted extends TimerEvent {
   @override
   String toString() => 'TimerStarted { duration: $duration }';
 }
+
+class TimerPaused extends TimerEvent {}
+
+class TimerResumed extends TimerEvent {}
+
+class TimerReset extends TimerEvent {}
+
+class TimerTicked extends TimerEvent {}
