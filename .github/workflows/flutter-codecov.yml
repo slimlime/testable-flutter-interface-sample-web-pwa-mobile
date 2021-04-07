@@ -12,8 +12,8 @@ jobs:
       - name: Install Flutter
         uses: subosito/flutter-action@v1.4.0
         with:
-          flutter-version: "1.26.0-17.5.pre"
-          channel: "beta"
+          flutter-version: "2.0.4"
+          channel: "stable"
       - name: Check flutter version (debug)
         run: flutter --version
       - name: Install plugin package dependencies
