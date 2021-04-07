@@ -157,19 +157,24 @@ void main() {
         ),
       );
 
-      differentUsers.forEach((user) {
-        final bool isDifferentUser = userA != differentUser;
-        final bool isDifferentHashCode =
-            userA.hashCode != differentUser.hashCode;
+      /* 
+      final void Function(User) a =
+          (differentRandomUser) => expectUserIsDifferent(
+                userA,
+                differentRandomUser,
+              );
+      */
 
-        final bool isDifferentValuesAndHash =
-            isDifferentUser && isDifferentHashCode;
-
-        expect(
-          isDifferentValuesAndHash,
-          true,
+      void expectRandomisedUserIsDifferentToBase(User differentRandomUser) {
+        return expectUserIsDifferent(
+          userA,
+          differentRandomUser,
         );
-      });
+      }
+
+      differentUsers.forEach(
+        expectRandomisedUserIsDifferentToBase,
+      );
     });
 
     test('same values hash equal', () {
@@ -184,4 +189,20 @@ void main() {
       expect(isSameHashCode, true);
     });
   });
+}
+
+void expectUserIsDifferent(
+  User baseUser,
+  User differentPrefixedUser,
+) {
+  final bool isDifferentUser = baseUser != differentPrefixedUser;
+  final bool isDifferentHashCode =
+      baseUser.hashCode != differentPrefixedUser.hashCode;
+
+  final bool isDifferentValuesAndHash = isDifferentUser && isDifferentHashCode;
+
+  expect(
+    isDifferentValuesAndHash,
+    true,
+  );
 }

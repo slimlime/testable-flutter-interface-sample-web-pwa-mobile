@@ -33,5 +33,6 @@ Matcher throwsMissingRequiredKeyException() {
   );
 }
 
-Matcher throwsCastError() => throwsErrorOfType<CastError>();
+/// Unsure due to `_CastError` found
+/* Matcher throwsCastError() => throwsErrorOfType<CastError>(); */
 Matcher throwsAnError() => throwsA(isA<Error>());
