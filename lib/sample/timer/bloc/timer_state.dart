@@ -11,8 +11,8 @@ abstract class TimerState extends Equatable {
   List<Object> get props => [];
 }
 
-class TimerReady extends TimerState {
-  const TimerReady(
+class TimerInitial extends TimerState {
+  const TimerInitial(
     int duration,
   ) : super(duration);
 }
