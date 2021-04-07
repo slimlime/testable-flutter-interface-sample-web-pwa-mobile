@@ -15,6 +15,8 @@ abstract class TimerState extends Equatable {
   }
 }
 
+/// Initial state.
+/// Ready to start counting down
 class TimerInitial extends TimerState {
   const TimerInitial(
     int duration,
@@ -24,6 +26,9 @@ class TimerInitial extends TimerState {
   String toString() => 'TimerInitial { duration: $duration }';
 }
 
+/// Currently running.
+/// Can pause and reset.
+/// See duration
 class TimerRunInProgress extends TimerState {
   const TimerRunInProgress(
     int duration,
@@ -33,6 +38,8 @@ class TimerRunInProgress extends TimerState {
   String toString() => 'TimerRunInProgress { duration: $duration }';
 }
 
+/// Timer paused during an active countdown run
+/// Can be reset or unpaused(resumed)
 class TimerRunPause extends TimerState {
   const TimerRunPause(
     int duration,
@@ -42,6 +49,7 @@ class TimerRunPause extends TimerState {
   String toString() => 'TimerRunPause { duration: $duration }';
 }
 
+/// Done. Can reset
 class TimerRunCompleteResettable extends TimerState {
   const TimerRunCompleteResettable() : super(0);
 
