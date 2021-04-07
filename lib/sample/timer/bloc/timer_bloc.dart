@@ -54,26 +54,28 @@ class TimerBloc extends Bloc<TimerEvent, TimerState> {
 
     _tickerSubscription = getTickerSubscribed(_ticker, add, start);
   }
+}
 
-  StreamSubscription<int>? getTickerSubscribed(
-    Ticker ticker,
-    void Function(TimerEvent) addFn /* Bloc.add */,
-    TimerStarted start,
-  ) {
-    final StreamSubscription<int> subscription = ticker
-        .tick(
-          numTicksSecondsToCountDown: start.duration,
-        )
-        .listen(
-          (duration) => add(
-            TimerTicked(
-              duration: duration,
-            ),
+StreamSubscription<int>? getTickerSubscribed(
+  Ticker ticker,
+
+  /// Notifies the [Bloc] of a new [event] which triggers [mapEventToState].
+  void Function(TimerEvent) mapEventToStateCallbackTriggerAddFn /* Bloc.add */,
+  TimerStarted start,
+) {
+  final StreamSubscription<int> subscription = ticker
+      .tick(
+        numTicksSecondsToCountDown: start.duration,
+      )
+      .listen(
+        (duration) => mapEventToStateCallbackTriggerAddFn(
+          TimerTicked(
+            duration: duration,
           ),
-        );
+        ),
+      );
 
-    return subscription;
-  }
+  return subscription;
 }
 
 Stream<TimerState> fpMapTimerStartedToTimerState(
