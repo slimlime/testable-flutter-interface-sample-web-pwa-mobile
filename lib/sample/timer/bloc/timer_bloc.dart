@@ -25,7 +25,11 @@ class TimerBloc extends Bloc<TimerEvent, TimerState> {
   Stream<TimerState> mapEventToState(
     TimerEvent event,
   ) async* {
-    // TODO: implement mapEventToState
+    if (event is TimerStarted) {
+      yield* _mapTimerStartedToState(
+        event,
+      );
+    }
   }
 
   @override
@@ -34,4 +38,51 @@ class TimerBloc extends Bloc<TimerEvent, TimerState> {
 
     return super.close();
   }
+
+  Stream<TimerState> _mapTimerStartedToState(
+    TimerStarted start,
+  ) async* {
+    yield TimerRunInProgress(start.duration);
+    // Wow so not sure if this is intended race condition.
+    // Await blocking may kill the timer
+    //
+    // The library docs need better standards...
+    // Maintainability issue
+    // Does not really matter if await as we throw away the reference and
+    // let it cancel whenever it wants
+    await _tickerSubscription?.cancel();
+
+    _tickerSubscription = getTickerSubscribed(_ticker, add, start);
+  }
+
+  StreamSubscription<int>? getTickerSubscribed(
+    Ticker ticker,
+    void Function(TimerEvent) addFn /* Bloc.add */,
+    TimerStarted start,
+  ) {
+    final StreamSubscription<int> subscription = ticker
+        .tick(
+          numTicksSecondsToCountDown: start.duration,
+        )
+        .listen(
+          (duration) => add(
+            TimerTicked(
+              duration: duration,
+            ),
+          ),
+        );
+
+    return subscription;
+  }
+}
+
+Stream<TimerState> fpMapTimerStartedToTimerState(
+  TimerStarted startEvent,
+  StreamSubscription<int> tickerSubscription,
+) async* {
+  yield TimerRunInProgress(
+    startEvent.duration,
+  );
+  // ignore: unawaited_futures
+  tickerSubscription.cancel();
 }
